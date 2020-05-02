@@ -44,8 +44,8 @@
 
             var _changeListeners = [];
 
-            this.subscribe = function(attrName, callbackFn){
-                _changeListeners[attrName].push(callbackFn);
+            this.subscribe = function(callbackFn){
+                _changeListeners.push(callbackFn);
             }
 
             this.get = function(attrName){
@@ -55,8 +55,7 @@
             this.set = function(attrName, value){
                 if (_data[attrName] === value) return;
                 _data[attrName] = value;
-                var callbackFns = _changeListeners[attrName];
-                callbackFns.forEach(function(callbackFn){
+                _changeListeners.forEach(function(callbackFn){
                     if (typeof callbackFn === 'function')
                         callbackFn();
                 });
@@ -153,11 +152,7 @@
 
 
             //React to Model changes
-            model.subscribe('salary', this.render);
-            model.subscribe('basic', this.render);
-            model.subscribe('hra', this.render);
-            model.subscribe('da', this.render);
-            model.subscribe('tax', this.render);
+            model.subscribe(this.render);
         }
 
          $(function(){
