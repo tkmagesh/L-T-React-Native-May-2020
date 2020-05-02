@@ -42,15 +42,15 @@
             };
 
             var _changeListeners = {
-                basic: null,
-                hra: null,
-                da: null,
-                tax: null,
-                salary: null
+                basic: [],
+                hra: [],
+                da: [],
+                tax: [],
+                salary: []
             };
 
             this.subscribe = function(attrName, callbackFn){
-                _changeListeners[attrName] = callbackFn;
+                _changeListeners[attrName].push(callbackFn);
             }
 
             this.get = function(attrName){
@@ -60,9 +60,11 @@
             this.set = function(attrName, value){
                 if (_data[attrName] === value) return;
                 _data[attrName] = value;
-                var callbackFn = _changeListeners[attrName];
-                if (typeof callbackFn === 'function')
-                    callbackFn();
+                var callbackFns = _changeListeners[attrName];
+                callbackFns.forEach(function(callbackFn){
+                    if (typeof callbackFn === 'function')
+                        callbackFn();
+                });
             }
             
         }
