@@ -24,6 +24,7 @@
         }
     </style>
     <script src="jquery-3.5.0.js"></script>
+    <script src="handlebars-v4.7.6.js"></script>
     <script>
         String.prototype.toInt = function(){
             return parseInt(this, 10);
@@ -65,6 +66,16 @@
                     if (typeof callbackFn === 'function')
                         callbackFn();
                 });
+            };
+
+            this.toJSON = function(){
+                return {
+                    basic : _data.basic,
+                    hra : _data.hra,
+                    da : _data.da,
+                    tax : _data.tax,
+                    salary : _data.salary
+                };
             }
             
         }
@@ -83,19 +94,19 @@
                 <section>
                     <div class="field">
                         <label for="">Basic :</label>
-                        <input type="number" class="txtBasic">
+                        <input type="number" class="txtBasic" value="{{basic}}">
                     </div>
                     <div class="field">
                         <label for="">HRA :</label>
-                        <input type="number" class="txtHra">
+                        <input type="number" class="txtHra" value={{hra}}>
                     </div>
                     <div class="field">
                         <label for="">DA :</label>
-                        <input type="text" class="txtDa">
+                        <input type="text" class="txtDa" value={{da}}>
                     </div>
                     <div class="field">
                         <label for="">Tax :</label>
-                        <input type="range" class="rangeTax" min="0" max="30" value="0">
+                        <input type="range" class="rangeTax" min="0" max="30" value="{{tax}}">
                     </div>
                     <div class="field">
                         <input type="button" value="Calculate" class="btnCalculate">
@@ -104,11 +115,11 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="tdBasic">[Basic]</td>
-                                    <td class="tdHra">[HRA]</td>
-                                    <td class="tdDa">[DA]</td>
-                                    <td class="tdTax">[Tax]</td>
-                                    <td class="tdSalary">[Salary]</td>
+                                    <td class="tdBasic">{{basic}}</td>
+                                    <td class="tdHra">{{hra}}</td>
+                                    <td class="tdDa">{{da}}</td>
+                                    <td class="tdTax">{{tax}}</td>
+                                    <td class="tdSalary">{{salary}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -116,11 +127,14 @@
                 </section>
             `;
             
+            var templateFn = Handlebars.compile(_template);
             var $viewEl = this.$viewEl = $('<div></div>');
 
             this.render = function(){
-                $viewEl.html(_template);
-            }
+                var data = model.toJSON();
+                var generatedHTML = templateFn(data);
+                $viewEl.html(generatedHTML);
+            };
 
             //React to user actions
             $viewEl.on('change', '.txtBasic',function () {
@@ -145,25 +159,11 @@
 
 
             //React to Model changes
-            model.subscribe('salary', function () {
-                $('.tdSalary', $viewEl).text(model.get('salary'));
-            });
-
-            model.subscribe('basic', function () {
-                $('.tdBasic', $viewEl).text(model.get('basic'));
-            });
-
-            model.subscribe('hra', function () {
-                $('.tdHra', $viewEl).text(model.get('hra'));
-            });
-
-            model.subscribe('da', function () {
-                $('.tdDa', $viewEl).text(model.get('da'));
-            });
-
-            model.subscribe('tax', function () {
-                $('.tdTax', $viewEl).text(model.get('tax'));
-            });
+            model.subscribe('salary', this.render);
+            model.subscribe('basic', this.render);
+            model.subscribe('hra', this.render);
+            model.subscribe('da', this.render);
+            model.subscribe('tax', this.render);
         }
 
          $(function(){
@@ -173,9 +173,9 @@
             view1.$viewEl.appendTo(document.body);
             view1.render();
 
-            var view2 = new SalaryCalculator(model);
+            /* var view2 = new SalaryCalculator(model);
             view2.$viewEl.appendTo(document.body);
-            view2.render();
+            view2.render(); */
         }); 
     </script>
 </head>
