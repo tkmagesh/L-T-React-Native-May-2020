@@ -79,7 +79,6 @@
         function SalaryCalculator(model){
 
             //presentation
-            
             var _template = `
                 <section>
                     <div class="field">
@@ -169,9 +168,14 @@
 
          $(function(){
             window['model'] = new SalaryCalculatorModel();
-            var view = new SalaryCalculator(model);
-            view.$viewEl.appendTo(document.body);
-            view.render();
+            
+            var view1 = new SalaryCalculator(model);
+            view1.$viewEl.appendTo(document.body);
+            view1.render();
+
+            var view2 = new SalaryCalculator(model);
+            view2.$viewEl.appendTo(document.body);
+            view2.render();
         }); 
     </script>
 </head>
