@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Intro</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script>
+    window.addEventListener('load', onLoad);
+    function onLoad(){
+        var btnRender = document.getElementById('btnRender');
+        btnRender.addEventListener('click', onBtnRenderClick);
+    }
+    var counter = 0;
+    function onBtnRenderClick(){
+        ++counter;
+        var appEle = React.createElement('div', null, 
+            React.createElement('h1', null, 'React.js'),
+            React.createElement('hr'),
+            React.createElement('section', null, 
+                React.createElement('span', null, 'Counter : '),
+                React.createElement('span', null, counter)
+            ),
+            React.createElement('section', null, 
+                React.createElement('h3', null, 'Introduction - '),
+                React.createElement('p', null, 'Culpa dolore amet ad adipisicing anim aute laborum adipisicing culpa ex consequat cillum. Reprehenderit pariatur excepteur laboris ipsum amet nostrud aliqua voluptate. Velit Lorem officia sint eu sit incididunt in cupidatat dolore dolore aliqua. Culpa in amet quis esse consequat. Minim mollit et tempor reprehenderit elit. Ut ad id ea ad dolore laboris et esse do.Aliqua fugiat labore veniam officia do eiusmod enim ea id enim. Ipsum aute aliquip nulla adipisicing tempor veniam minim eu. Enim ea ad sit tempor incididunt non commodo sint anim consectetur non. Ipsum consectetur ullamco velit amet do amet consequat et anim. Ex nisi id excepteur ex proident mollit ullamco. Qui dolor elit aliquip aute labore consequat. Et minim laboris velit culpa aute sint cillum aliqua sit do.'),
+                React.createElement('p', null, 'Amet pariatur sunt voluptate incididunt velit veniam irure incididunt labore aliquip labore ut. Occaecat tempor enim cillum duis deserunt magna laboris sit consequat. Nisi veniam minim ex adipisicing ea commodo nostrud. Id Lorem et ad adipisicing. Officia duis velit non non ex ullamco pariatur commodo ipsum.Ullamco officia ipsum elit ullamco. Anim culpa aliquip consequat eu Lorem enim voluptate dolor ullamco. Nulla esse elit ut tempor culpa in tempor dolor aliqua deserunt dolor. Culpa irure laborum aliquip tempor esse laborum in pariatur deserunt.'),
+            ),
+            React.createElement('section', null,
+                React.createElement('h3', null, 'Advantages'),
+                React.createElement('ol', null, 
+                    React.createElement('li', null, 'Declarative'),
+                    React.createElement('li', null, 'Efficient')
+                )
+            )
+        );
+        ReactDOM.render(appEle, document.getElementById('root'));
+    }
+    </script>
+</head>
+<body>
+
+    <input type="button" value="Render" id="btnRender">
+    <div id="root"></div>
+</body>
+</html>
