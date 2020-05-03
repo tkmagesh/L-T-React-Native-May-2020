@@ -17,14 +17,20 @@
     <script type="text/babel">
         class Greeter extends React.Component{
 
-            state = { 
+            state = {
+                userName : '', 
                 greetMessage : '[Dummy greet message]'
             };
 
-            onGreetClick = () => {
-                console.log('greet button is clicked');
-                this.setState({ greetMessage : '[A new greet message]'});
+            onGreetClick = (evt) => {
+                const newGreetMessage = `Hi ${this.state.userName}, Have a nice day!`;
+                this.setState({ greetMessage : newGreetMessage});
             }
+
+            onUserNameInput = (evt) => {
+                this.setState({ userName : evt.target.value });
+            }
+
             //presentation
             render(){
                 return (
@@ -32,7 +38,7 @@
                         <h1>Greeter</h1>
                         <hr/>
                         <label htmlFor="">User Name :</label>
-                        <input type="text" name="" id="" />
+                        <input type="text" onInput={this.onUserNameInput} />
                         <input type="button" value="Greet" onClick={this.onGreetClick} />
                         <div className="highlight">{this.state.greetMessage}</div>
                     </div>
