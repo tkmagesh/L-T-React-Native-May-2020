@@ -108,7 +108,7 @@
                                         <td>{hra}</td>
                                         <td>{da}</td>
                                         <td>{tax}</td>
-                                        <td>{salary}</td>
+                                        { salary !== 0 ? (<td>{salary}</td>) : null }
                                     </tr>
                                 </tbody>
                             </table>
