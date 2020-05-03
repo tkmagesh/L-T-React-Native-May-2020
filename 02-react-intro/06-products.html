@@ -26,10 +26,7 @@
                     <div>
                         <h1>Products</h1>
                         <hr/>
-                        <div>
-                            <span>Products Count : </span>
-                            <span>{productNames.length}</span>
-                        </div>
+                        
                         <label>Product Name :</label>
                         <input type="text" onChange={ evt => this.setState({ newProductName: evt.target.value})}  />
                         <input type="button" value="Add New" onClick={this.onAddNewClick} />
@@ -40,8 +37,19 @@
                 )
             }
         }
+
+        const ProductsCount = () => (
+            <div>
+                <span>Products Count : </span>
+                <span>0</span>
+            </div>
+        );
         
-        ReactDOM.render(<Products/>, 
+        ReactDOM.render(
+            <div>
+                <ProductsCount />
+                <Products/>
+            </div>,
             document.getElementById('root'));
     </script>
 </head>
