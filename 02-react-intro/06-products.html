@@ -11,7 +11,7 @@
     <script type="text/babel">
         class Products extends React.Component{
             render(){
-                const productNames = [ 'Pen', 'Pencil', 'Marker' ];
+                const productNames = [ ];
                 /* 
                 const productItems = [ ];
                 for(let index = 0, count = productNames.length; index < count;index++){
@@ -25,6 +25,9 @@
                     <div>
                         <h1>Products</h1>
                         <hr/>
+                        <label>Product Name :</label>
+                        <input type="text" />
+                        <input type="button" value="Add New" />
                         <ol>
                             {productItems}
                         </ol>
