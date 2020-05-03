@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Products</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+
+        class EventEmitter{
+            _listeners = [];
+
+            subscribe = (listenerFn) => this._listeners.push(listenerFn);
+            
+            triggerChange = () => this._listeners.forEach(listenerFn => listenerFn());
+        }
+
+        class ProductsCollection extends EventEmitter {
+            _productNames = [];
+
+            getAll = () => [...this._productNames];
+
+            addNew = (newProductName) => {
+                this._productNames.push(newProductName);
+                this.triggerChange();
+            }
+        }
+
+
+        class Products extends React.Component{
+            state = { 
+                newProductName : ''
+            }
+            onAddNewClick = () => {
+                const { newProductName } = this.state;
+                this.props.collection.addNew(newProductName);
+            }
+            render(){
+                const productNames = this.props.collection.getAll();
+                const productItems = productNames.map((productName, index) => (<li key={index}>{productName}</li>));
+                return(
+                    <div>
+                        <h1>Products</h1>
+                        <hr/>
+                        <label>Product Name :</label>
+                        <input type="text" onChange={ evt => this.setState({ newProductName: evt.target.value})}  />
+                        <input type="button" value="Add New" onClick={this.onAddNewClick} />
+                        <ol>
+                            {productItems}
+                        </ol>
+                    </div>
+                )
+            }
+        }
+
+        const ProductsCount = ({data}) => (
+            <div>
+                <span>Products Count : </span>
+                <span>{data}</span>
+            </div>
+        );
+
+        
+        const productsCollection = new ProductsCollection();
+        function renderApp(){
+            ReactDOM.render(
+                <div>
+                    <ProductsCount data={productsCollection.getAll().length}/>
+                    <Products collection={productsCollection}/>
+                </div>
+                ,
+                document.getElementById('root'));
+        }
+        renderApp();
+        productsCollection.subscribe(renderApp);
+
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>

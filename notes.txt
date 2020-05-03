@@ -1,0 +1,80 @@
+http://github.com/tkmagesh/L-T-React-Native-May-2020
+
+
+- Data Validations
+    NO NEED
+
+- Organize our code (separate HTML , CSS & JS)
+    Ops team
+
+
+Maintaining
+    Fix bugs
+    Introduce new features
+    remove dead features
+    optimize existing code
+
+        => CHANGE
+
+Separation of Concerns
+    UI & NON UI
+
+
+Reactive (Dumb) X Proactive (knowledge)
+
+
+View Synchronization with the model
+    1. Incremental
+            - create the dom tree once and 
+            - keep manipulating the same dom nodes again and again 
+                for reflecting the model state changes
+
+    2. All In One
+            - recreate the dom (with the latest model state) 
+                again and again for every model state change
+            - becomes easier when used a template engine
+
+            template + data => template engine => generated new content with data
+
+    react.js
+    react-dom.js
+
+View in React = Component (Presentation + UI Behavior + UI State)
+                    UI Behavior = Reacting to user actions
+
+ES6 (ES2015, ESNext)
+
+1. let
+2. const
+3. Array destructuring
+4. rest operator (array)
+5. spread operator (array)
+6. Object destructuring
+7. rest operator (Object)
+8. spread operator (Object)
+9. default arguments
+10. arrow functions 
+11. template strings
+12. symbol
+13. classes
+
+HTML
+Only open tags are allowed (eg., hr, br)
+An attribute named "for" is allowed
+An attribute named "class" is allowed
+
+JSX
+Every open tag must have a close tag (<hr/>, <br/>)
+use "htmlFor" as an alternative for "for"
+use "className" as an alternative for "class"
+
+State Choices
+    Model
+        Any data that supports the CORE BUSINESS LOGIC ( and / or ) needed throughout the application
+
+    Component (setState)
+        localizing the data for that component
+        Only that component (and its children) will be able to recognize when the state is changing
+
+        To be used only to maintain any data that IS NOT NEEDED in other parts of the application
+        ONLY UI STATE should be in the component state
