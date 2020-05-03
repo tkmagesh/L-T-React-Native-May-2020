@@ -83,7 +83,7 @@
                    <section>
                         <div className="field">
                             <label htmlFor="">Basic :</label>
-                            <input type="number" onInput={ evt => model.set('basic', evt.target.valueAsNumber) } />
+                            <input type="number" defaultValue={basic} onInput={ evt => model.set('basic', evt.target.valueAsNumber) } />
                         </div>
                         <div className="field">
                             <label htmlFor="">HRA :</label>
@@ -95,7 +95,7 @@
                         </div>
                         <div className="field">
                             <label htmlFor="">Tax :</label>
-                            <input type="range" min="0" max="30" onInput={ evt => model.set('tax', evt.target.valueAsNumber) }/>
+                            <input type="range" min="0" max="30" defaultValue="0" onInput={ evt => model.set('tax', evt.target.valueAsNumber) }/>
                         </div>
                         <div className="field">
                             <input type="button" value="Calculate" onClick={ evt => model.calculate() }/>
