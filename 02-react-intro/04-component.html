@@ -16,6 +16,15 @@
     <script src="babel.min.js"></script>
     <script type="text/babel">
         class Greeter extends React.Component{
+
+            state = { 
+                greetMessage : '[Dummy greet message]'
+            };
+
+            onGreetClick = () => {
+                console.log('greet button is clicked');
+                this.setState({ greetMessage : '[A new greet message]'});
+            }
             //presentation
             render(){
                 return (
@@ -24,8 +33,8 @@
                         <hr/>
                         <label htmlFor="">User Name :</label>
                         <input type="text" name="" id="" />
-                        <input type="button" value="Greet" />
-                        <div className="highlight">[Greet Message]</div>
+                        <input type="button" value="Greet" onClick={this.onGreetClick} />
+                        <div className="highlight">{this.state.greetMessage}</div>
                     </div>
                 )
             }
