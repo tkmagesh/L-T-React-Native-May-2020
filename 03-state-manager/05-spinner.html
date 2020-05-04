@@ -16,11 +16,13 @@
         02. Remove dependency on the store in the component
         03. Introducing action creators
         04. Introducing action dispatchers (using bindActionCreators) for spinner
+        05. Generalising the bindActionCreators function
         */
         function spinnerReducer(currentState = 0, action){
             if (action.type === 'INCREMENT') return currentState += 1;
             if (action.type === 'DECREMENT') return currentState -= 1;
             if (action.type === 'DOUBLE_INCREMENT') return currentState * 2;
+            if (action.type === 'DOUBLE_DECREMENT') return currentState / 2;
             return currentState;
         }
         var store = StateManager.createStore(spinnerReducer)
@@ -29,6 +31,10 @@
         var spinnerActionCreators = {
             doubleIncrement(){
                 const action = { type : 'DOUBLE_INCREMENT' };
+                return action;
+            },
+            doubleDecrement(){
+                const action = { type : 'DOUBLE_DECREMENT' };
                 return action;
             }, 
             increment(){
@@ -42,21 +48,21 @@
         }
 
         //get the actions created from the actionCreators and dispatch them
-        function bindActionCreators(spinnerActionCreators, dispatch){
-            const spinnerActionDispatchers = { 
-                increment(){
-                    const action = spinnerActionCreators.increment();
-                    dispatch(action);
-                },
-                decrement(){
-                    const action = spinnerActionCreators.decrement();
-                    dispatch(action);
-                }
-            };
-            return spinnerActionDispatchers;
+        function bindActionCreators(actionCreators, dispatch){
+           const actionDispatchers = {};
+           for(let key in actionCreators){
+               actionDispatchers[key] = function(...args){
+                   const action = actionCreators[key](...args);
+                   dispatch(action);
+               };
+           }
+           return actionDispatchers;
         }
 
         class Spinner extends React.Component {
+            onDoubleDecrementClick = () => {
+                this.props.doubleDecrement();
+            }
             onDecrementClick=() => {
                 this.props.decrement();
             }
@@ -72,6 +78,7 @@
                     <div>
                         <h1>Spinner</h1>
                         <hr/>
+                        <input type="button" value="Double Decrement" onClick={this.onDoubleDecrementClick}/>
                         <input type="button" value="Decrement" onClick={this.onDecrementClick}/>
                         <span> {value} </span>
                         <input type="button" value="Increment" onClick={this.onIncrementClick}/>
