@@ -2,6 +2,7 @@ var StateManager = (function(){
     var _currentState = undefined;
     var _subscribers = [];
     var _reducer = null;
+    var __init_action = { type : '@@INIT/ACTION' } ;
 
     function getState(){
         return _currentState;
@@ -26,6 +27,8 @@ var StateManager = (function(){
 
     function createStore(reducer){
         _reducer = reducer;
+        //to initialize the currentState with the default valid initial state
+        _currentState = _reducer(undefined, __init_action);
         var store = { getState, subscribe, dispatch };
         return store;
     }
