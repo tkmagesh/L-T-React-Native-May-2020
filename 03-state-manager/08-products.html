@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Products</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="state-manager.js"></script>
+
+    <script type="text/babel">
+       
+       function productsReducer(currentState=[], action){
+           if (action.type === 'ADD_NEW_PRODUCT'){
+               const newProduct = action.payload;
+                return [...currentState, newProduct];
+           }
+           return currentState;
+       }
+
+       let newProductId = 0;
+       const productActionCreators = {
+           addNew(productName){
+               const newProduct = { id : ++newProductId, name: productName, createdAt : new Date()};
+               const action = { type : 'ADD_NEW_PRODUCT', payload : newProduct };
+               return action;
+           }
+       };
+
+        const ProductsCount = ({data}) => (
+            <div>
+                <span>Products Count : </span>
+                <span>{data}</span>
+            </div>
+        );
+
+        class Products extends React.Component {
+            state = { 
+                newProductName : ''
+            }
+            onAddNewClick = () => {
+                this.props.addNew(this.state.newProductName);
+            }
+            render(){
+                const productItems = this.props.data.map((product, index) => (<li key={product.id}>{product.name}</li>));
+                return (
+                    <div>
+                        <h1>Products</h1>
+                        <hr/>
+                        <label>Product Name :</label>
+                        <input type="text" onChange={ evt => this.setState({ newProductName: evt.target.value})}  />
+                        <input type="button" value="Add New" onClick={this.onAddNewClick} />
+                        <ol>
+                            {productItems}
+                        </ol>
+                    </div>
+                )
+            }
+        }
+
+        const store = StateManager.createStore(productsReducer);
+        const productActions = StateManager.bindActionCreators(productActionCreators, store.dispatch);
+
+        function renderApp(){
+            const productsList = store.getState();
+            ReactDOM.render(
+                <div>
+                    <ProductsCount data={productsList.length} />
+                    <Products data={productsList} {...productActions} />
+                </div>
+                , document.getElementById('root')
+            );
+        };
+        renderApp();
+        store.subscribe(renderApp);
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
