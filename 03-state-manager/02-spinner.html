@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spinner</title>
+    <script src="state-manager.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+
+    <script type="text/babel">
+
+        /* 
+        02. Remove dependency on the store in the component
+        */
+        function spinnerReducer(currentState = 0, action){
+            if (action.type === 'INCREMENT') return currentState += 1;
+            if (action.type === 'DECREMENT') return currentState -= 1;
+            return currentState;
+        }
+        var store = StateManager.createStore(spinnerReducer)
+        
+        class Spinner extends React.Component {
+            onDecrementClick=() => {
+                const action = { type : 'DECREMENT'};
+                this.props.dispatch(action);
+            }
+            onIncrementClick=() => {
+                const action = { type : 'INCREMENT'};
+                this.props.dispatch(action);
+            }
+            render() {
+                const value = this.props.value;
+                return(
+                    <div>
+                        <h1>Spinner</h1>
+                        <hr/>
+                        <input type="button" value="Decrement" onClick={this.onDecrementClick}/>
+                        <span> {value} </span>
+                        <input type="button" value="Increment" onClick={this.onIncrementClick}/>
+                    </div>
+                )
+            }
+        }
+
+        function renderSpinner(){
+            ReactDOM.render(<Spinner value={store.getState()} dispatch={store.dispatch}/>
+                , document.getElementById('root'));
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
