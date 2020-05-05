@@ -135,7 +135,12 @@
                 this.props.addNew(this.state.newProductName);
             }
             render(){
-                const productItems = this.props.data.map((product, index) => (<li key={product.id}>{product.name} - [{product.id}]</li>));
+                const productItems = this.props.data.map((product, index) => (
+                    <li key={product.id}>
+                        <span>{product.name} - [{product.id}]</span>
+                        <input type="button" value="Remove" />
+                    </li>
+                ));
                 return (
                     <div>
                         <h3>Products</h3>
@@ -187,6 +192,8 @@
                 <ReactRedux.Provider store={store}>
                     <div>
                         <h1>My App</h1>
+                        <label>Apply Filter :</label>
+                        <input type="checkbox" />
                         <hr/>
                         <Spinner/>
                         <hr/>
