@@ -26,6 +26,10 @@
                const newProduct = action.payload;
                 return [...currentState, newProduct];
            }
+           if (action.type === 'REMOVE_PRODUCT'){
+               const productToRemove = action.payload;
+               return currentState.filter(product => product.id !== productToRemove.id);
+           }
            return currentState;
        }
 
@@ -56,6 +60,10 @@
            addNew(productName){
                const newProduct = { id : ++newProductId, name: productName, createdAt : new Date()};
                const action = { type : 'ADD_NEW_PRODUCT', payload : newProduct };
+               return action;
+           },
+           remove(product){
+               const action = { type : 'REMOVE_PRODUCT', payload : product };
                return action;
            }
        };
@@ -135,10 +143,11 @@
                 this.props.addNew(this.state.newProductName);
             }
             render(){
+                const { remove } = this.props;
                 const productItems = this.props.data.map((product, index) => (
                     <li key={product.id}>
                         <span>{product.name} - [{product.id}]</span>
-                        <input type="button" value="Remove" />
+                        <input type="button" value="Remove" onClick={() => remove(product)} />
                     </li>
                 ));
                 return (
@@ -156,16 +165,17 @@
             }
         };
 
-        const ProductsApp = ({productsList, addNew}) => (
+        const ProductsApp = ({productsList, addNew, remove}) => (
            <div>
                 <ProductsCount data={productsList.length} />
-                <Products data={productsList} addNew={addNew} />
+                <Products data={productsList} addNew={addNew} remove={remove} />
             </div>
         )
 
         function mapStateToProps(storeState){
-            const spinnerValue = storeState.spinnerData;
-            const productsList = storeState.productsData.filter(p => p.id % 2 === spinnerValue % 2);
+            /* const spinnerValue = storeState.spinnerData;
+            const productsList = storeState.productsData.filter(p => p.id % 2 === spinnerValue % 2); */
+            const productsList = storeState.productsData;
             return { productsList };
         }
 
