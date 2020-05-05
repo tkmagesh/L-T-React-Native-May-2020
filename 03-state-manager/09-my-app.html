@@ -62,7 +62,7 @@
 
 
        //Components
-const Spinner = (function(){
+    const Spinner = (function(){
         class Spinner extends React.Component {
             state = { 
                 delta : 1
@@ -135,7 +135,7 @@ const Spinner = (function(){
                 this.props.addNew(this.state.newProductName);
             }
             render(){
-                const productItems = this.props.data.map((product, index) => (<li key={product.id}>{product.name}</li>));
+                const productItems = this.props.data.map((product, index) => (<li key={product.id}>{product.name} - [{product.id}]</li>));
                 return (
                     <div>
                         <h3>Products</h3>
@@ -179,20 +179,22 @@ const Spinner = (function(){
         }); // storeState => { spinnerData : 0, productsData : []}
 
         //Store
-        const store = Redux.createStore(rootReducer);
+        (function(){
+            const store = Redux.createStore(rootReducer);
 
-        ReactDOM.render(
-            <ReactRedux.Provider store={store}>
-                <div>
-                    <h1>My App</h1>
-                    <hr/>
-                    <Spinner/>
-                    <hr/>
-                    <ProductsApp/>
-                </div>
-            </ReactRedux.Provider>,
-            document.getElementById('root')
-        );
+            ReactDOM.render(
+                <ReactRedux.Provider store={store}>
+                    <div>
+                        <h1>My App</h1>
+                        <hr/>
+                        <Spinner/>
+                        <hr/>
+                        <ProductsApp/>
+                    </div>
+                </ReactRedux.Provider>,
+                document.getElementById('root')
+            );
+        })();
         
         
     </script>
