@@ -159,7 +159,8 @@
         )
 
         function mapStateToProps(storeState){
-            const productsList = storeState.productsData;
+            const spinnerValue = storeState.spinnerData;
+            const productsList = storeState.productsData.filter(p => p.id % 2 === spinnerValue % 2);
             return { productsList };
         }
 
