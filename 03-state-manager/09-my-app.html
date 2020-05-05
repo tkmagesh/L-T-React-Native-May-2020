@@ -33,6 +33,11 @@
            return currentState;
        }
 
+       function applyFilterReducer(currentState = false, action){ 
+           if (action.type === 'APPLY_FILTER') return action.payload;
+           return currentState;
+       }
+
 
         
         //Action Creators
@@ -67,6 +72,38 @@
                return action;
            }
        };
+
+       const applyFilterActionCreators = { 
+           applyFilter(toBeFiltered){
+               const action = { type : 'APPLY_FILTER', payload : toBeFiltered };
+               return action;
+           }
+       }
+
+    const Filter = (function(){
+        class Filter extends React.Component{
+            render(){
+                console.log(this.props);
+                const { applyFilter, data } = this.props;
+                return(
+                    <div>
+                        <div>[{data.toString()}]</div>
+                        <label>Apply Filter :</label>
+                        <input type="checkbox" checked={data} onChange={ (evt) => applyFilter(evt.target.checked)} />
+                    </div>
+                )
+            }
+        }
+
+        function mapStateToProps(storeState){
+            return { data : storeState.applyFilterData };
+        }
+        function mapDispatchToProps(dispatch){
+            return Redux.bindActionCreators(applyFilterActionCreators, dispatch);
+        }
+
+        return ReactRedux.connect(mapStateToProps, mapDispatchToProps)(Filter);
+    })()
 
 
        //Components
@@ -173,10 +210,15 @@
         )
 
         function mapStateToProps(storeState){
-            /* const spinnerValue = storeState.spinnerData;
-            const productsList = storeState.productsData.filter(p => p.id % 2 === spinnerValue % 2); */
-            const productsList = storeState.productsData;
-            return { productsList };
+            const filterData = storeState.applyFilterData;
+            if (filterData){
+                const spinnerValue = storeState.spinnerData;
+                const productsList = storeState.productsData.filter(p => p.id % 2 === spinnerValue % 2);
+                return { productsList };
+            } else {
+                const productsList = storeState.productsData;
+                return { productsList };
+            }
         }
 
         function mapDispatchToProps(dispatch){
@@ -191,19 +233,19 @@
 
         const rootReducer = Redux.combineReducers({
             spinnerData : spinnerReducer,
-            productsData : productsReducer
+            productsData : productsReducer,
+            applyFilterData : applyFilterReducer
         }); // storeState => { spinnerData : 0, productsData : []}
 
         //Store
         (function(){
             const store = Redux.createStore(rootReducer);
-
+            console.log(store.getState());
             ReactDOM.render(
                 <ReactRedux.Provider store={store}>
                     <div>
                         <h1>My App</h1>
-                        <label>Apply Filter :</label>
-                        <input type="checkbox" />
+                        <Filter/>
                         <hr/>
                         <Spinner/>
                         <hr/>
