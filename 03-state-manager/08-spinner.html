@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spinner</title>
+    <script src="redux.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+
+    <script type="text/babel">
+
+        /* 
+        02. Remove dependency on the store in the component
+        03. Introducing action creators
+        04. Introducing action dispatchers (using bindActionCreators) for spinner
+        05. Generalising the bindActionCreators function
+        06. Moving the bindActionCreators to the state manager
+        07. Introducing payloads in the actions
+        08. Replace StateManager with redux
+        */
+        function spinnerReducer(currentState = 0, action){
+            if (action.type === 'INCREMENT') return currentState += action.payload;
+            if (action.type === 'DECREMENT') return currentState -= action.payload;
+            if (action.type === 'DOUBLE_INCREMENT') return currentState * 2;
+            if (action.type === 'DOUBLE_DECREMENT') return currentState / 2;
+            return currentState;
+        }
+        var store = Redux.createStore(spinnerReducer)
+        
+        //create the actions
+        var spinnerActionCreators = {
+            doubleIncrement(){
+                const action = { type : 'DOUBLE_INCREMENT' };
+                return action;
+            },
+            doubleDecrement(){
+                const action = { type : 'DOUBLE_DECREMENT' };
+                return action;
+            }, 
+            increment(delta){
+                 const action = { type : 'INCREMENT', payload : delta};
+                 return action;
+            },
+            decrement(delta){
+                const action = { type : 'DECREMENT', payload : delta};
+                return action;
+            }
+        }
+
+        class Spinner extends React.Component {
+            state = { 
+                delta : 1
+            };
+            onDoubleDecrementClick = () => {
+                this.props.doubleDecrement();
+            }
+            onDecrementClick=() => {
+                const { delta } = this.state;
+                this.props.decrement(delta);
+            }
+            onIncrementClick=() => {
+                const { delta } = this.state;
+                this.props.increment(delta);
+            }
+            onDoubleIncrementClick=() => {
+                this.props.doubleIncrement();
+            }
+            render() {
+                const value = this.props.value;
+                return(
+                    <div>
+                        <h1>Spinner</h1>
+                        <hr/>
+                        
+                        <input type="button" value="Decrement" onClick={this.onDecrementClick}/>
+                        <input type="number" onChange={(evt) => this.setState({ delta : evt.target.valueAsNumber})} />
+                        <span> {value} </span>
+                        <input type="button" value="Increment" onClick={this.onIncrementClick}/>
+                        <br/>
+                        <input type="button" value="Double Decrement" onClick={this.onDoubleDecrementClick}/>
+                        <input type="button" value="Double Increment" onClick={this.onDoubleIncrementClick}/>
+                    </div>
+                )
+            }
+        }
+
+        const spinnerActionDispatchers = Redux.bindActionCreators(spinnerActionCreators, store.dispatch);
+        function renderSpinner(){
+            ReactDOM.render(<Spinner value={store.getState()} {...spinnerActionDispatchers} />
+                , document.getElementById('root'));
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>

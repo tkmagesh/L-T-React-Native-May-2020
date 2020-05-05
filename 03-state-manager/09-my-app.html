@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spinner</title>
+    <script src="redux.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+
+    <script type="text/babel">
+
+       //Reducers
+        function spinnerReducer(currentState = 0, action){
+            if (action.type === 'INCREMENT') return currentState += action.payload;
+            if (action.type === 'DECREMENT') return currentState -= action.payload;
+            if (action.type === 'DOUBLE_INCREMENT') return currentState * 2;
+            if (action.type === 'DOUBLE_DECREMENT') return currentState / 2;
+            return currentState;
+        }
+
+        function productsReducer(currentState=[], action){
+           if (action.type === 'ADD_NEW_PRODUCT'){
+               const newProduct = action.payload;
+                return [...currentState, newProduct];
+           }
+           return currentState;
+       }
+
+
+        
+        //Action Creators
+        var spinnerActionCreators = {
+            doubleIncrement(){
+                const action = { type : 'DOUBLE_INCREMENT' };
+                return action;
+            },
+            doubleDecrement(){
+                const action = { type : 'DOUBLE_DECREMENT' };
+                return action;
+            }, 
+            increment(delta){
+                 const action = { type : 'INCREMENT', payload : delta};
+                 return action;
+            },
+            decrement(delta){
+                const action = { type : 'DECREMENT', payload : delta};
+                return action;
+            }
+        }
+
+       let newProductId = 0;
+       const productActionCreators = {
+           addNew(productName){
+               const newProduct = { id : ++newProductId, name: productName, createdAt : new Date()};
+               const action = { type : 'ADD_NEW_PRODUCT', payload : newProduct };
+               return action;
+           }
+       };
+
+
+       //Components
+        class Spinner extends React.Component {
+            state = { 
+                delta : 1
+            };
+            onDoubleDecrementClick = () => {
+                this.props.doubleDecrement();
+            }
+            onDecrementClick=() => {
+                const { delta } = this.state;
+                this.props.decrement(delta);
+            }
+            onIncrementClick=() => {
+                const { delta } = this.state;
+                this.props.increment(delta);
+            }
+            onDoubleIncrementClick=() => {
+                this.props.doubleIncrement();
+            }
+            render() {
+                const value = this.props.value;
+                return(
+                    <div>
+                        <h1>Spinner</h1>
+                        <hr/>
+                        
+                        <input type="button" value="Decrement" onClick={this.onDecrementClick}/>
+                        <input type="number" onChange={(evt) => this.setState({ delta : evt.target.valueAsNumber})} />
+                        <span> {value} </span>
+                        <input type="button" value="Increment" onClick={this.onIncrementClick}/>
+                        <br/>
+                        <input type="button" value="Double Decrement" onClick={this.onDoubleDecrementClick}/>
+                        <input type="button" value="Double Increment" onClick={this.onDoubleIncrementClick}/>
+                    </div>
+                )
+            }
+        }
+
+        const ProductsCount = ({data}) => (
+            <div>
+                <span>Products Count : </span>
+                <span>{data}</span>
+            </div>
+        );
+
+        class Products extends React.Component {
+            state = { 
+                newProductName : ''
+            }
+            onAddNewClick = () => {
+                this.props.addNew(this.state.newProductName);
+            }
+            render(){
+                const productItems = this.props.data.map((product, index) => (<li key={product.id}>{product.name}</li>));
+                return (
+                    <div>
+                        <h1>Products</h1>
+                        <hr/>
+                        <label>Product Name :</label>
+                        <input type="text" onChange={ evt => this.setState({ newProductName: evt.target.value})}  />
+                        <input type="button" value="Add New" onClick={this.onAddNewClick} />
+                        <ol>
+                            {productItems}
+                        </ol>
+                    </div>
+                )
+            }
+        }
+
+        const rootReducer = Redux.combineReducers({
+            spinnerData : spinnerReducer,
+            productsData : productsReducer
+        }); // storeState => { spinnerData : 0, productsData : []}
+
+        //Store
+        const store = Redux.createStore(rootReducer);
+
+        //Creating action dispatchers
+        const spinnerActionDispatchers = Redux.bindActionCreators(spinnerActionCreators, store.dispatch);
+        const productActionDispatchers = Redux.bindActionCreators(productActionCreators, store.dispatch);
+
+        /* function renderSpinner(){
+            ReactDOM.render(<Spinner value={store.getState()} {...spinnerActionDispatchers} />
+                , document.getElementById('root'));
+        }
+
+        function renderApp(){
+            const productsList = store.getState();
+            ReactDOM.render(
+                <div>
+                    <ProductsCount data={productsList.length} />
+                    <Products data={productsList} {...productActions} />
+                </div>
+                , document.getElementById('root')
+            );
+        };
+
+        renderSpinner();
+        store.subscribe(renderSpinner); */
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
