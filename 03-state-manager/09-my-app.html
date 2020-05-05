@@ -9,7 +9,7 @@
     <script src="react.development.js"></script>
     <script src="react-dom.development.js"></script>
     <script src="babel.min.js"></script>
-
+    <script src="react-redux.js"></script>
     <script type="text/babel">
 
        //Reducers
@@ -62,6 +62,7 @@
 
 
        //Components
+const Spinner = (function(){
         class Spinner extends React.Component {
             state = { 
                 delta : 1
@@ -99,6 +100,26 @@
             }
         }
 
+        //Extracting data for the spinner component
+        function mapStateToProps(storeState){
+            const spinnerValue = storeState.spinnerData;
+            return { value : spinnerValue };
+        }
+
+        //Creating action dispatchers for the spinner component
+        function mapDispatchToProps(dispatch){
+            const spinnerActionDispatchers = Redux.bindActionCreators(spinnerActionCreators, dispatch);
+            return spinnerActionDispatchers;
+        }
+
+        //Connected Spinner ( Smart Component )
+        return ReactRedux.connect(
+                mapStateToProps,
+                mapDispatchToProps
+            )(Spinner);
+    })();
+
+    const ProductsApp = (function(){
         const ProductsCount = ({data}) => (
             <div>
                 <span>Products Count : </span>
@@ -128,7 +149,29 @@
                     </div>
                 )
             }
+        };
+
+        const ProductsApp = ({productsList, addNew}) => (
+           <div>
+                <ProductsCount data={productsList.length} />
+                <Products data={productsList} addNew={addNew} />
+            </div>
+        )
+
+        function mapStateToProps(storeState){
+            const productsList = storeState.productsData;
+            return { productsList };
         }
+
+        function mapDispatchToProps(dispatch){
+            const productActionDispatchers = Redux.bindActionCreators(productActionCreators, dispatch);
+            return productActionDispatchers;
+        }
+
+        return ReactRedux.connect(mapStateToProps, mapDispatchToProps)(ProductsApp);
+    })();
+
+        
 
         const rootReducer = Redux.combineReducers({
             spinnerData : spinnerReducer,
@@ -138,31 +181,20 @@
         //Store
         const store = Redux.createStore(rootReducer);
 
-        //Creating action dispatchers
-        const spinnerActionDispatchers = Redux.bindActionCreators(spinnerActionCreators, store.dispatch);
-        const productActionDispatchers = Redux.bindActionCreators(productActionCreators, store.dispatch);
-
-        function renderApp(){
-            const storeState = store.getState(),
-                spinnerValue = storeState.spinnerData,
-                productsList = storeState.productsData;
-
-            ReactDOM.render(
+        ReactDOM.render(
+            <ReactRedux.Provider store={store}>
                 <div>
                     <h1>My App</h1>
                     <hr/>
-                    <Spinner value={spinnerValue} {...spinnerActionDispatchers}/>
+                    <Spinner/>
                     <hr/>
-                    <div>
-                        <ProductsCount data={productsList.length} />
-                        <Products data={productsList} {...productActionDispatchers} />
-                    </div>
-                </div>,
-                document.getElementById('root')
-            )
-        }
-        renderApp();
-        store.subscribe(renderApp);
+                    <ProductsApp/>
+                </div>
+            </ReactRedux.Provider>,
+            document.getElementById('root')
+        );
+        
+        
     </script>
 </head>
 <body>
