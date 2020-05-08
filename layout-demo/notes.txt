@@ -1,0 +1,40 @@
+Flex (flexible)
+
+How the children elements have to be organized in a container
+
+Main Axis
+Cross Axis
+
+flexDirection -> row (main axis -> x axis, Cross axis - y axis)
+             -> column (main axis -> y axis, Cross axis - x axis)
+
+justContent : main axis
+    flex-start
+    flex-end
+    center
+    space-around
+    space-between
+
+alignItems : cross axis
+    flex-start
+    flex-end
+    center
+    stretch
+
+Container
+    E1
+        flex : 2
+
+    E2
+        flex : 2
+
+    E3
+        flex : 2
+
+Esse eu ut amet elit ut veniam sit eiusmod fugiat cupidatat adipisicing sint. Ipsum nisi dolore nostrud id sint sit aute dolor sint tempor commodo velit. Dolore commodo aute non nulla laborum irure et incididunt occaecat ea cupidatat proident est enim. Irure minim ex voluptate sunt quis non non deserunt. Labore nostrud et ad dolore mollit laboris nostrud.
+
+Esse dolore ut esse minim amet aliquip Lorem nulla aliquip eiusmod occaecat laborum et laboris. Mollit non et sit occaecat magna. Laboris culpa eiusmod aliqua eu laborum laboris adipisicing do aliquip occaecat minim ea dolore ex. Id occaecat anim cupidatat incididunt ea magna esse in culpa non sunt. Deserunt aute et ad Lorem eiusmod.
+
+Nulla velit dolor cupidatat ex in amet ad ex. Dolore aliqua laborum aliquip est voluptate sint. Dolore deserunt qui incididunt sit aliqua nulla cupidatat amet dolor anim ad. Nisi consectetur nulla magna consectetur est non magna eiusmod duis dolor aute occaecat. Incididunt officia voluptate cupidatat ullamco laborum ullamco culpa ipsum nulla mollit consectetur cupidatat consequat. Et cillum laboris tempor dolore irure aliquip eiusmod eu non qui consequat culpa. Et non pariatur aute quis sunt pariatur voluptate.
+
+Magna do ex id velit esse. Consectetur consequat duis sunt officia ad ullamco. Anim dolore amet adipisicing quis velit fugiat veniam nisi labore. Occaecat quis culpa laborum dolor consequat cupidatat anim aliqua irure proident cillum duis nisi. In occaecat in aliquip eiusmod exercitation do in nisi culpa consequat ipsum. Cupidatat ullamco qui eiusmod id ullamco veniam Lorem est minim sit fugiat.
