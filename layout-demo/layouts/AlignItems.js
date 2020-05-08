@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   container2: {
     flex: .5,
     flexDirection: 'row',
-    justifyContent : 'flex-end',
+    justifyContent : 'center',
     alignItems: 'center' //replace with flex-end or center
   },
   box: {
