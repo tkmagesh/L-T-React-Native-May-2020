@@ -5,7 +5,8 @@ import {
   View, 
   StatusBar, 
   TouchableOpacity,
-  Dimensions 
+  Dimensions,
+  Picker 
 } from 'react-native';
 
 const screen = Dimensions.get('window'),
@@ -41,6 +42,17 @@ const styles = StyleSheet.create({
   timerText : {
     fontSize : 90,
     color : '#fff'
+  },
+  picker : {
+    width : 50
+  },
+  pickerItem : {
+    color : '#fff',
+    fontSize : 20
+  },
+  pickerLabel : {
+    color : '#fff',
+    fontSize : 20
   }
 });
 
@@ -99,6 +111,20 @@ export default class App extends React.Component{
      return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <Picker style={styles.picker} itemStyle={styles.pickerItem} selectedValue="3">
+           <Picker.Item key="1" label="1" value="1" />
+           <Picker.Item key="2" label="2" value="2" />
+           <Picker.Item key="3" label="3" value="3" />
+           <Picker.Item key="4" label="4" value="4" />
+        </Picker>
+        <Text style={styles.pickerLabel}>Minutes</Text>
+         <Picker style={styles.picker} itemStyle={styles.pickerItem} selectedValue="3">
+           <Picker.Item key="1" label="1" value="1" />
+           <Picker.Item key="2" label="2" value="2" />
+           <Picker.Item key="3" label="3" value="3" />
+           <Picker.Item key="4" label="4" value="4" />
+         </Picker>
+         <Text style={styles.pickerLabel}>Seconds</Text>
         <Text style={styles.timerText}>{`${formatNumber(minutes)}:${formatNumber(seconds)}`}</Text>
         { !isRunning ? (
           <TouchableOpacity style={styles.button} onPress={this.onStartPress} >
