@@ -44,7 +44,7 @@ const App = () => {
   }
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => onButtonPress()}>
+      <TouchableOpacity style={styles.button} onPress={onButtonPress}>
         <Text>Click Me!</Text>
       </TouchableOpacity>
       <Text style={styles.textStyle}>{message}</Text>
