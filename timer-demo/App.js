@@ -74,8 +74,6 @@ const styles = StyleSheet.create({
 
 const formatNumber = number => `0${number}`.slice(-2);
 
-console.log(formatNumber(2));
-
 const getRemaining = (time) => {
   const minutes = Math.floor(time / 60),
     seconds = time - (minutes * 60);
@@ -92,6 +90,11 @@ export default class App extends React.Component{
 
   timerId = null;
 
+  componentDidUpdate(prevProp, prevState) {
+    if (this.state.remainingTime === 0 && prevState.remainingTime !== 0)
+      this.onStopPress();
+  }
+
   onStartPress = () => {
     this.setState(state => {
       return {
@@ -101,14 +104,9 @@ export default class App extends React.Component{
     });
 
     this.timerId = setInterval(() => {
-      let newRemainingTime = this.state.remainingTime - 1;
-      if (newRemainingTime >= 0){
         this.setState(state => ({
-          remainingTime : newRemainingTime
+          remainingTime : state.remainingTime - 1
         }))
-      } else {
-        this.onStopPress();
-      }
     },1000);
 
   }
@@ -131,6 +129,11 @@ export default class App extends React.Component{
     return pickerItems;
   }
 
+  componentWillUnmount(){
+    if (this.timer){
+      clearInterval(this.timer);
+    }
+  }
 
   render() {
     const { isRunning, remainingTime } = this.state;
