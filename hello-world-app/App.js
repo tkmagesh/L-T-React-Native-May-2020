@@ -22,7 +22,22 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
   }
 } */
 
-export default function App(){
+/* export default function App(){
+  const [message, setMessage] = React.useState('')
+  const onButtonPress = () => {
+    setMessage('The button is pressed!');
+  }
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={() => onButtonPress()}>
+        <Text>Click Me!</Text>
+      </TouchableOpacity>
+      <Text style={styles.textStyle}>{message}</Text>
+    </View>
+  );
+} */
+
+const App = () => {
   const [message, setMessage] = React.useState('')
   const onButtonPress = () => {
     setMessage('The button is pressed!');
@@ -36,6 +51,8 @@ export default function App(){
     </View>
   );
 }
+ 
+export default App;
 
 const styles = StyleSheet.create({
   container: {
