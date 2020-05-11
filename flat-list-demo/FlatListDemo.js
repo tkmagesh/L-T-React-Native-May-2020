@@ -100,7 +100,7 @@ class FlatListDemo extends Component {
                                 roundAvatar
                                 title={`${item.name.first} ${item.name.last}`}
                                 subtitle={item.email}
-                                leftAvatar={{ uri: item.picture.thumbnail }}
+                                leftAvatar={{source : { uri: item.picture.thumbnail }}}
                                 containerStyle={{ borderBottomWidth: 0 }}
                             />
                         );
