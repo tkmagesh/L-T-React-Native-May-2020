@@ -28,5 +28,26 @@
         });
     }
 
-    window['addAsyncClient'] = addAsyncClient;
+    function addAsyncPromise(x, y) {
+        console.log(`   [@Service] processing ${x} and ${y}`);
+        var p = new Promise(function(resolveFn, rejectFn){
+            setTimeout(function () {
+                var result = x + y;
+                console.log(`   [@Service] returning result`);
+                resolveFn(result);
+            }, 5000);
+        });
+        return p;   
+    }
+
+    function addAsyncPromiseClient(x,y){
+        console.log(`[@Client] triggering service`);
+        var p = addAsyncPromise(x, y);
+        //then(fn), catch(fn)
+        p.then(function(result){
+            console.log(`[@Client] result = ${result}`);
+        });
+    }
+
+    window['addAsyncPromiseClient'] = addAsyncPromiseClient;
 })();
