@@ -40,15 +40,21 @@
         return p;   
     }
 
-     function addAsyncPromiseClient(x,y){
+     /* function addAsyncPromiseClient(x,y){
         console.log(`[@Client] triggering service`);
         var p = addAsyncPromise(x, y);
-        //then(fn), catch(fn)
         var doublePromise = p.then(function(result){
             var doubleResult = result * 2;
             return doubleResult;
         });
         return doublePromise;
+    } */
+
+    async function addAsyncPromiseClient(x, y) {
+        console.log(`[@Client] triggering service`);
+        var result = await addAsyncPromise(x, y);
+        console.log(`[@Client] result = ${result}`);
+        return result * 2;
     }
 
     window['addAsyncPromiseClient'] = addAsyncPromiseClient;
