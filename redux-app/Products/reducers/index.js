@@ -5,5 +5,8 @@ export default function productsReducer(currentState = [], action){
         console.log(newState);
         return newState;
     }
+    if (action.type === 'LOAD_PRODUCTS'){
+        return action.payload;
+    }
     return currentState;
 }

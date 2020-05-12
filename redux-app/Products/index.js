@@ -33,13 +33,11 @@ const styles = StyleSheet.create({
 
 function Products(props) {
     
-    const { productsData, addNew } = props;
+    const { productsData, addNew, getAll } = props;
     const [newItem, setNewItem] = useState('');
 
     const onGetDataPress = () => {
-        axios
-            .get('http://localhost:3000/products')
-            .then(response => console.log(response.data));
+        getAll();
     }
     return (
         <View style={styles.productsContainer}>
