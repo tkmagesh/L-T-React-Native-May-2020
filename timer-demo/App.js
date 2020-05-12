@@ -10,6 +10,7 @@ import {
   Platform 
 } from 'react-native';
 
+import useInterval from './useInterval';
 
 const screen = Dimensions.get('window'),
   screenWidth = screen.width;
@@ -88,57 +89,47 @@ export default (props) =>  {
   const [selectedMinutes, setSelectedMinutes] = React.useState(0);
   const [selectedSeconds,setSelectedSeconds] = React.useState(0);
   
-  const timerRef = React.useRef();
-
-  /* componentDidUpdate(prevProp, prevState) {
-    if (this.state.remainingTime === 0 && prevState.remainingTime !== 0)
-      this.onStopPress();
-  } */
-
-/* componentWillUnmount() {
-  if (this.timer) {
-    clearInterval(this.timer);
-  }
-} */
-
-  
-
-
   const onStartPress = () => {
-    const initialRemainingTime = selectedMinutes * 60 + selectedSeconds;
     setIsRunning(true);
-    setRemainingTime(initialRemainingTime);
-    console.log(`initialRemainingTime = ${initialRemainingTime}`);
-    
-    timerRef.current = setInterval(() => {
-      console.log(remainingTime);
-      const newRemainingTime = remainingTime - 1;
-      if (newRemainingTime <= 0){
-        onStopPress();
-      } else {
-        setRemainingTime(newRemainingTime)
-      };
-    }, 1000);
-
   }
 
   const onStopPress = () => {
-
-    if (timerRef.current){
-      setIsRunning(false);
-      setRemainingTime(0);
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
+    setIsRunning(false);
+  }
+  
+  const setRemainingMinutes = (value) => {
+    setSelectedMinutes(value);
   }
 
-  /* React.useEffect(() => {
-    if (remainingTime === 0)
-      onStopPress();
-    return () => {
-      if (timerId) clearInterval(timerId);
+  const setRemainingSeconds = (value) => {
+    setSelectedSeconds(value);
+//    setRemainingTime(selectedMinutes * 60 + value);
+  }
+  
+
+  React.useEffect(() => {
+     let interval = null;
+     let calculatedRemainingTime = null;
+
+     const stopRunning = () => {
+       clearInterval(interval)
+       setRemainingTime(0);
+       setIsRunning(false);
+     }
+     if (isRunning){
+       calculatedRemainingTime = selectedMinutes * 60 + selectedSeconds;
+        interval = setInterval(() => {
+          --calculatedRemainingTime;
+          setRemainingTime(calculatedRemainingTime);
+          if (calculatedRemainingTime === 0){
+            stopRunning();
+          }
+        }, 1000);
+    } else if (!isRunning && remainingTime !== 0){
+      stopRunning();
     }
-  }, [remainingTime]); */
+     return () => clearInterval(interval);
+  }, [isRunning]);
 
   const getPickerItems = (nos) => {
     const pickerItems = [];
@@ -156,7 +147,7 @@ export default (props) =>  {
             style={styles.picker}
             itemStyle={styles.pickerItem}
             selectedValue={selectedMinutes}
-            onValueChange={value => setSelectedMinutes(value)}
+            onValueChange={value => setRemainingMinutes(value)}
             mode="dropdown"
           >
             {getPickerItems(60)}
@@ -166,7 +157,7 @@ export default (props) =>  {
             style={styles.picker}
             itemStyle={styles.pickerItem}
             selectedValue={selectedSeconds}
-            onValueChange={value => setSelectedSeconds(value)}
+            onValueChange={value => setRemainingSeconds(value)}
             mode="dropdown"
           >
             {getPickerItems(60)}
