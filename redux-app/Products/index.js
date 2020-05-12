@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import * as productActions from './actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
     productsContainer: {
@@ -31,9 +32,15 @@ const styles = StyleSheet.create({
 });
 
 function Products(props) {
-    console.log(props);
+    
     const { productsData, addNew } = props;
     const [newItem, setNewItem] = useState('');
+
+    const onGetDataPress = () => {
+        axios
+            .get('http://localhost:3000/products')
+            .then(response => console.log(response.data));
+    }
     return (
         <View style={styles.productsContainer}>
             <TextInput
@@ -48,6 +55,10 @@ function Products(props) {
             <TouchableOpacity style={styles.button} 
                 onPress={() => addNew(newItem)}>
                 <Text style={styles.buttonText}>Add</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}
+                onPress={() => onGetDataPress()}>
+                <Text style={styles.buttonText}>Get Data</Text>
             </TouchableOpacity>
             <Text style={styles.buttonText}>{productsData.length}</Text>
         </View>
