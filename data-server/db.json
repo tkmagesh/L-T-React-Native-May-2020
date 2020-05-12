@@ -1,0 +1,22 @@
+{
+    "products" : [
+        {
+            "id" : 1, 
+            "name" : "Pen", 
+            "cost" : 10, 
+            "units" : 100
+        },
+        {
+            "id": 2,
+            "name": "Pencil",
+            "cost": 5,
+            "units": 500
+        },
+        {
+            "id": 3,
+            "name": "Marker",
+            "cost": 50,
+            "units": 50
+        }
+    ]
+}
