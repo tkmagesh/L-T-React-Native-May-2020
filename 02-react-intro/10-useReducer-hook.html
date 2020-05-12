@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reducer Hook</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        function useItems(initialState = []){
+            const itemReducer = (currentState = [], action) => {
+                if (action.type === 'ADD')
+                    return [...currentState, action.payload];
+                return currentState;
+            }
+            const [newItem, setNewItem] = React.useState('');
+            const [items, dispatch] = React.useReducer(itemReducer, initialState);
+
+            const add = () => {
+                dispatch({ type : 'ADD', payload : newItem });
+            }
+            return [setNewItem, add, items];
+        }
+
+
+        const App = () => {
+            const [setNewItem, add, items] = useItems(['Marker', 'Scribble Pad']);
+            return (
+                <div>
+                    <input type="text" onInput={evt => setNewItem(evt.target.value)} />
+                    <input type="button" value="Add" onClick={add} />
+                    <ol>
+                        { items.map((item, index) => (<li key={index}>{item}</li>))}
+                    </ol>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App/>, document.getElementById('root'));
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
