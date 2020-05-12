@@ -1,14 +1,10 @@
-import axios from 'axios';
+import productsApi from '../services/productsApi';
 
 export function addNew(productName){
-    return function(dispatch){
+    return async function(dispatch){
         const newProductData = { id : 0, name : productName, cost : 10};
-        axios
-            .post('http://localhost:3000/products', newProductData)
-            .then(response => {
-                const newProduct = response.data;
-                const newAction = { type: 'ADD_NEW', payload: newProduct };
-                dispatch(newAction);
-            })
+        const newProduct = await productsApi.save(newProductData);
+        const newAction = { type: 'ADD_NEW', payload: newProduct };
+        dispatch(newAction);
     }
 }

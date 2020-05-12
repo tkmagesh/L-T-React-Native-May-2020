@@ -33,8 +33,16 @@ const asyncMiddleware = ({dispatch, getState}) => next => action => {
     return next(action);
 }
 
+const promiseMiddleware = ({dispatch, getState}) => next => action => {
+    if (action instanceof Promise) {
+        action.then(actionObj => next(actionObj));
+    } else {
+        return next(action);
+    }
+}
 
 
-const appStore = createStore(rootReducer, applyMiddleware(loggerMiddleware, thunk));
+
+const appStore = createStore(rootReducer, applyMiddleware(loggerMiddleware, thunk, promiseMiddleware));
 
 export default appStore;
