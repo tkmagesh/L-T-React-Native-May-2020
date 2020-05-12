@@ -12,6 +12,7 @@ import {
 
 import useInterval from './useInterval';
 
+
 const screen = Dimensions.get('window'),
   screenWidth = screen.width;
 
@@ -108,6 +109,7 @@ export default (props) =>  {
   
 
   React.useEffect(() => {
+     console.log('component mounted');
      let interval = null;
      let calculatedRemainingTime = null;
 

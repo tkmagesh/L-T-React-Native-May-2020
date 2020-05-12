@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React-Hooks</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        const Counter = () => {
+            const [counter, setCounter] = React.useState(0);
+            React.useEffect(() => {
+                console.log('component mounted');
+                return () => {
+                    console.log('component will unmount');
+                };   
+            },[counter])
+           
+            return (
+                <React.Fragment>
+                    <h3>Counter</h3>
+                    <div>{counter}</div>
+                    <input type="button" value="Click" onClick={ () => setCounter(counter + 1)} />
+
+                </React.Fragment>
+            )
+        }
+
+        const App = () => {
+            const [showCounter, toggleCounter] = React.useState(false);
+            return (
+                <React.Fragment>
+                    <input type="button" value="Toggle Counter" onClick={ () => toggleCounter(!showCounter) } />
+                    { showCounter ? <Counter/> : null }
+                </React.Fragment>
+            )
+        }
+
+        ReactDOM.render(<App/>,document.getElementById('root'));
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
