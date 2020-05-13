@@ -14,7 +14,6 @@ class Items extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { done: doneHeading } = this.props;
     const { items } = this.state;
     const heading = doneHeading ? "Completed" : "Todo";
@@ -57,8 +56,8 @@ class Items extends React.Component {
   }
 }
 
-export default () => (
+export default React.forwardRef((props, ref) => (
   <DbContext.Consumer>
-    {context => (<Items db={context.db}/>)}
+    {context => (<Items {...props} db={context.db} ref={ref}/>)}
   </DbContext.Consumer>
-);
+));
