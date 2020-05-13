@@ -13,8 +13,11 @@ import * as SQLite from 'expo-sqlite';
 import styles from './src/styles';
 
 const db = SQLite.openDatabase("db.db");
+import Items from './src/Items';
 
-class Items extends React.Component {
+import DbContext from './src/DbContext';
+
+/* class Items extends React.Component {
   state = {
     items: null
   };
@@ -62,7 +65,7 @@ class Items extends React.Component {
       );
     });
   }
-}
+} */
 
 export default class App extends React.Component {
   state = {
@@ -79,51 +82,56 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>SQLite Example</Text>
-        <View style={styles.flexRow}>
-          <TextInput
-            onChangeText={text => this.setState({ text })}
-            onSubmitEditing={() => {
-              this.add(this.state.text);
-              this.setState({ text: null });
-            }}
-            placeholder="what do you need to do?"
-            style={styles.input}
-            value={this.state.text}
-          />
+      
+        <View style={styles.container}>
+        <DbContext.Provider value={{ db: db }}>
+          <Text style={styles.heading}>SQLite Example</Text>
+          <View style={styles.flexRow}>
+            <TextInput
+              onChangeText={text => this.setState({ text })}
+              onSubmitEditing={() => {
+                this.add(this.state.text);
+                this.setState({ text: null });
+              }}
+              placeholder="what do you need to do?"
+              style={styles.input}
+              value={this.state.text}
+            />
+          </View>
+          <ScrollView style={styles.listArea}>
+            
+            <Items
+              done={false}
+              ref={todo => (this.todo = todo)}
+              onPressItem={id =>
+                db.transaction(
+                  tx => {
+                    tx.executeSql(`update items set done = 1 where id = ?;`, [
+                      id
+                    ]);
+                  },
+                  null,
+                  this.update
+                )
+              }
+            />
+            <Items
+              done={true}
+              ref={done => (this.done = done)}
+              onPressItem={id =>
+                db.transaction(
+                  tx => {
+                    tx.executeSql(`delete from items where id = ?;`, [id]);
+                  },
+                  null,
+                  this.update
+                )
+              }
+            />
+          </ScrollView>
+        </DbContext.Provider>
         </View>
-        <ScrollView style={styles.listArea}>
-          <Items
-            done={false}
-            ref={todo => (this.todo = todo)}
-            onPressItem={id =>
-              db.transaction(
-                tx => {
-                  tx.executeSql(`update items set done = 1 where id = ?;`, [
-                    id
-                  ]);
-                },
-                null,
-                this.update
-              )
-            }
-          />
-          <Items
-            done={true}
-            ref={done => (this.done = done)}
-            onPressItem={id =>
-              db.transaction(
-                tx => {
-                  tx.executeSql(`delete from items where id = ?;`, [id]);
-                },
-                null,
-                this.update
-              )
-            }
-          />
-        </ScrollView>
-      </View>
+      
     );
   }
 

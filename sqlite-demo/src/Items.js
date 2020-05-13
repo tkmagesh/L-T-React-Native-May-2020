@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
+import DbContext from './DbContext';
+
 
 class Items extends React.Component {
   state = {
@@ -12,6 +14,7 @@ class Items extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const { done: doneHeading } = this.props;
     const { items } = this.state;
     const heading = doneHeading ? "Completed" : "Todo";
@@ -21,28 +24,30 @@ class Items extends React.Component {
     }
 
     return (
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionHeading}>{heading}</Text>
-        {items.map(({ id, done, value }) => (
-          <TouchableOpacity
-            key={id}
-            onPress={() => this.props.onPressItem && this.props.onPressItem(id)}
-            style={{
-              backgroundColor: done ? "#1c9963" : "#fff",
-              borderColor: "#000",
-              borderWidth: 1,
-              padding: 8
-            }}
-          >
-            <Text style={{ color: done ? "#fff" : "#000" }}>{value}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
-  }
+     
+          <View style={styles.sectionContainer}>
+          <Text style={styles.sectionHeading}>{heading}</Text>
+          {items.map(({ id, done, value }) => (
+            <TouchableOpacity
+              key={id}
+              onPress={() => this.props.onPressItem && this.props.onPressItem(id)}
+              style={{
+                backgroundColor: done ? "#1c9963" : "#fff",
+                borderColor: "#000",
+                borderWidth: 1,
+                padding: 8
+              }}
+            >
+              <Text style={{ color: done ? "#fff" : "#000" }}>{value}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        )
+      }
+  
 
   update() {
-    db.transaction(tx => {
+    this.props.db.transaction(tx => {
       tx.executeSql(
         `select * from items where done = ?;`,
         [this.props.done ? 1 : 0],
@@ -51,3 +56,9 @@ class Items extends React.Component {
     });
   }
 }
+
+export default () => (
+  <DbContext.Consumer>
+    {context => (<Items db={context.db}/>)}
+  </DbContext.Consumer>
+);
