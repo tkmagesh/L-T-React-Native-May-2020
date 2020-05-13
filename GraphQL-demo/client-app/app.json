@@ -1,17 +1,21 @@
 {
   "expo": {
-    "name": "Weather",
-    "slug": "Weather",
-    "privacy": "public",
+    "name": "client-app",
+    "slug": "client-app",
+    "android": {
+      "package": "com.training.smapp",
+      "versionCode": 1
+    },
     "platforms": [
       "ios",
-      "android"
+      "android",
+      "web"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Ax45z.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Ax45z.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,11 +27,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.training.testapp"
-    },
-    "android": {
-      "package": "app.training.testapp"
-    },
-    "entryPoint": "node_modules/expo/AppEntry.js"
+      "bundleIdentifier": "com.training.smapp",
+      "buildNumber": "1.0.0"
+    }
   }
 }

@@ -33,6 +33,19 @@
       "status": "Asdfsfas",
       "publishedAt": "2020-05-13T04:38:35.258Z",
       "parentStatusId": "vfGnRzoYa"
+    },
+    {
+      "_id": "QGXgmpSh4",
+      "userId": "user-2",
+      "status": "Learning React Native + GraphQL",
+      "publishedAt": "2020-05-13T09:29:10.870Z"
+    },
+    {
+      "_id": "dTaQtZ1On",
+      "userId": "user-2",
+      "status": "Build a sample app!!!",
+      "publishedAt": "2020-05-13T09:29:46.132Z",
+      "parentStatusId": "QGXgmpSh4"
     }
   ],
   "users": [
@@ -52,7 +65,8 @@
   "likes": {
     "user-2": {
       "1": true,
-      "vfGnRzoYa": false
+      "vfGnRzoYa": false,
+      "dTaQtZ1On": true
     }
   }
 }

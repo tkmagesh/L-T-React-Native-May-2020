@@ -78,3 +78,12 @@ State Choices
 
         To be used only to maintain any data that IS NOT NEEDED in other parts of the application
         ONLY UI STATE should be in the component state
+
+
+Context
+    https://snack.expo.io/@tkmagesh/3d2c25
+
+
+
+standalone apk
+     https://expo.io/artifacts/c6c087ea-cd26-49ad-bff5-62d43002ffbc
