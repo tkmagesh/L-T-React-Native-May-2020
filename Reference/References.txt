@@ -1,0 +1,34 @@
+
+Open Source Reference Applications
+    Reddit Clone
+        https://github.com/akveo/react-native-reddit-reader
+
+    Meetup Clone
+        https://github.com/buildreactnative/assemblies
+
+    HackerNews Clone
+        https://github.com/jsdf/ReactNativeHackerNews
+
+    ButterCup (password manager)
+        https://github.com/buttercup/buttercup-mobile
+
+    Others
+        https://www.awesome-react-native.com/#Open-Source-Apps
+
+Authentication
+    https://github.com/ryanmcdermott/react-native-login
+
+Other Info
+    https://github.com/jondot/awesome-react-native
+
+Geofencing
+    Using "Google Geometry Library" - https://github.com/surialabs/react-native-geo-fencing
+
+File Uploading
+    https://github.com/aroth/react-native-uploader
+
+Navigation Demos
+    https://github.com/jondot/awesome-react-native#navigation-demos
+
+    
+
